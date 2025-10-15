@@ -84,7 +84,7 @@ namespace NewDemoex
             MainForm.BackColor = ColorTranslator.FromHtml("#FFFFFF");
             MainForm.Text = "Список товаров";
             //MainForm.Icon = new Icon("Icon.ico");
-            MainForm.Size = new Size(903, 1000);
+            MainForm.Size = new Size(2048, 1080);
             MainForm.FormBorderStyle = FormBorderStyle.FixedSingle;
             MainForm.StartPosition = FormStartPosition.CenterScreen;
 
@@ -97,7 +97,7 @@ namespace NewDemoex
 
             applicationsContainerPanel = new Panel();
             applicationsContainerPanel.Location = new Point(10, 170);
-            applicationsContainerPanel.Size = new Size(860, 680);
+            applicationsContainerPanel.Size = new Size(860, 700);
             applicationsContainerPanel.BorderStyle = BorderStyle.FixedSingle;
             applicationsContainerPanel.AutoScroll = true; //Скроллинг
 
@@ -172,70 +172,114 @@ namespace NewDemoex
 
                                     panelTopOffset += panelHeight + panelSpacing;
                                     // Создаем переменные и лейбл с названием товара и производителя
+                                    //Картинка...
+                                    Label PhotoLabel = new Label();
+                                    string photo = reader.GetString(2);
+                                    PhotoLabel.Text = photo;
+                                    PhotoLabel.Size = new Size(50, 50);
+                                    PhotoLabel.Location = new Point(10, 10);
+                                    PhotoLabel.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
+                                    applicationPanel.Controls.Add(PhotoLabel);
+                                    //Основная инфа
                                     Label titleLabel = new Label();
                                     string productName = reader.GetString(1);
                                     string manufactureName = reader.GetString(4);
                                     titleLabel.Text = productName + " (" + manufactureName + ")";
                                     titleLabel.Size = new Size(780, 30);
-                                    titleLabel.Location = new Point(10, 10);
+                                    titleLabel.Location = new Point(76, 10);
                                     titleLabel.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
                                     applicationPanel.Controls.Add(titleLabel);
                                     // Создаем переменные и лейбл с деталями: описание, категория, производство, цена и т.п.
                                     string description = reader.GetString(3);
                                     string categoryName = reader.GetString(9);
                                     decimal price = reader.GetDecimal(6);
+                                    string unit = reader.GetString(7);
                                     int stock = reader.GetInt32(8);
-
+                                    int disc = reader.GetInt32(10);
                                     Label detailsLabel = new Label();
-                                    detailsLabel.Text = $"{description}, Категория: {categoryName}, Цена: {price} ₽, Остаток: {stock}";
+                                    detailsLabel.Text = $"{description}, Категория: {categoryName}, Цена: {price} ₽, Остаток: {stock} {unit} | Скидка: {disc}%";
                                     detailsLabel.Size = new Size(780, 40);
-                                    detailsLabel.Location = new Point(10, 50);
-                                    detailsLabel.Font = new Font("Bahnschrift Light SemiCondensed", 10);
+                                    detailsLabel.Location = new Point(76, 50);
+                                    detailsLabel.Font = new Font("Bahnschrift Light SemiCondensed", 9);
                                     applicationPanel.Controls.Add(detailsLabel);
                                     //призываем демона с буклетами
                                     applicationsContainerPanel.Controls.Add(applicationPanel);
-                                    // кнопка ведущая к другому окну с другой функцией
-                                    Button button1 = new Button();
-                                    button1.Size = new Size(300, 64);
-                                    button1.Location = new Point(250, 860);
-                                    button1.Text = "Подсчеты";
-                                    button1.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
-                                    MainForm.Controls.Add(button1);
-
-                                    // Создает новую функцию и форму, закрывает первое окно
-                                    button1.Click += Button1_Click;
-                                    void Button1_Click(object sender, EventArgs e)
-                                    {
-                                        // настройки окна
-                                        MainForm.Hide();
-                                        Form CalcForm = new Form();
-                                        CalcForm.Text = "Подсчеты вашего IQ";
-                                        CalcForm.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                                        CalcForm.Size = new Size(800, 200);
-                                        CalcForm.StartPosition = FormStartPosition.CenterScreen;
-                                        CalcForm.FormBorderStyle = FormBorderStyle.FixedDialog;
-                                        // текст
-                                        Label messageLabel = new Label();
-                                        messageLabel.Text = "У вас че калькулятор сдох? Или хромосом недосчитали?";
-                                        messageLabel.AutoSize = true;
-                                        messageLabel.Font = new Font("Bahnschrift Light SemiCondensed", 24);
-                                        messageLabel.Location = new Point(20, 20);
-                                        CalcForm.Controls.Add(messageLabel);
-                                        // кнопка завершения программы
-                                        Button closeButton = new Button();
-                                        closeButton.Text = "Дропнуть с позором";
-                                        closeButton.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
-                                        closeButton.Size = new Size(250, 50);
-                                        closeButton.Location = new Point(265, 80);
-                                        closeButton.Click += (cs, ce) => Application.Exit();
-                                        // выше уже все пояснено
-                                        CalcForm.Controls.Add(closeButton);
-                                        CalcForm.ShowDialog();
-                                        MainForm.Show();
-                                    }
+                                   
 
                                 }
                             }
+                        }
+                        //Типо сортировка-заглушка
+                        ComboBox OptList = new ComboBox();
+                        OptList.DropDownStyle = ComboBoxStyle.DropDownList;
+                        OptList.Size = new Size(300, 64);
+                        OptList.Location = new Point(1250, 160);
+                        OptList.Items.Insert(0, "Сортировка");
+                        OptList.SelectedIndex = 0;
+                        OptList.Font = new Font("Bahnschrift Light SemiCondensed", 12);
+                        OptList.Items.Add("По названию");
+                        OptList.Items.Add("По дате");
+                        OptList.Items.Add("По скидке");
+                        MainForm.Controls.Add(OptList);
+
+                        //Типо поиск-заглушка
+                        Label srchLbl = new Label();
+                        srchLbl.Text = "Вы можете найти нужную заявку вручную:";
+                        srchLbl.AutoSize = true;
+                        srchLbl.Font = new Font("Bahnschrift Light SemiCondensed", 12);
+                        srchLbl.Location = new Point(1250, 260);
+                        MainForm.Controls.Add(srchLbl);
+                        TextBox SearchTB = new TextBox();
+                        SearchTB.Size = new Size(300, 64);
+                        SearchTB.AutoSize = true;
+                        SearchTB.Font = new Font("Bahnschrift Light SemiCondensed", 12);
+                        SearchTB.Location = new Point(1250, 280);
+                        MainForm.Controls.Add(SearchTB);
+                        Button buttonSearch = new Button();
+                        buttonSearch.Size = new Size(100, 34);
+                        buttonSearch.Location = new Point(1340, 320);
+                        buttonSearch.Text = "Найти";
+                        buttonSearch.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
+                        buttonSearch.Click += (cs, ce) => MessageBox.Show("Кажется что-то пошло не так...");
+                        MainForm.Controls.Add(buttonSearch);
+
+                        // кнопка ведущая к другому окну с другой функцией
+                        Button button1 = new Button();
+                        button1.Size = new Size(300, 64);
+                        button1.Location = new Point(250, 860);
+                        button1.Text = "Подсчеты";
+                        button1.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
+                        MainForm.Controls.Add(button1);
+                        // Создает новую функцию и форму, закрывает первое окно
+                        button1.Click += Button1_Click;
+                        void Button1_Click(object sender, EventArgs e)
+                        {
+                            // настройки окна
+                            MainForm.Hide();
+                            Form CalcForm = new Form();
+                            CalcForm.Text = "Подсчеты вашего IQ";
+                            CalcForm.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+                            CalcForm.Size = new Size(800, 200);
+                            CalcForm.StartPosition = FormStartPosition.CenterScreen;
+                            CalcForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                            // текст
+                            Label messageLabel = new Label();
+                            messageLabel.Text = "У вас че калькулятор сдох? Или хромосом недосчитали?";
+                            messageLabel.AutoSize = true;
+                            messageLabel.Font = new Font("Bahnschrift Light SemiCondensed", 24);
+                            messageLabel.Location = new Point(20, 20);
+                            CalcForm.Controls.Add(messageLabel);
+                            // кнопка завершения программы
+                            Button closeButton = new Button();
+                            closeButton.Text = "Дропнуть с позором";
+                            closeButton.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
+                            closeButton.Size = new Size(250, 50);
+                            closeButton.Location = new Point(265, 80);
+                            closeButton.Click += (cs, ce) => Application.Exit();
+                            // выше уже все пояснено
+                            CalcForm.Controls.Add(closeButton);
+                            CalcForm.ShowDialog();
+                            MainForm.Show();
                         }
                     }
                 }
@@ -302,8 +346,8 @@ namespace NewDemoex
                 }
             }
 
-                // тут была не работающая кнопкахвхвахавх гостяавххавхвахв...
+            // тут была не работающая кнопкахвхвахавх гостяавххавхвахв...
 
-            }
         }
     }
+}
