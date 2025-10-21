@@ -14,7 +14,7 @@ namespace NewDemoex
     public partial class LoginForm : Form
     {
         // соединение с бд через NPGSQL
-        public string connectionString = "Host=localhost;Username=postgres;Database=dbd";
+        public string connectionString = "Host=localhost;Username=postgres;Password=postgres;Database=dbd";
         private int panelTopOffset = 10;
         private Panel applicationsContainerPanel;
         public LoginForm()
