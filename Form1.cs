@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Npgsql;
+using System.IO;//чтобы работали path и file
+using Npgsql;//база данных
 
 namespace NewDemoex
 {
@@ -103,6 +104,7 @@ namespace NewDemoex
 
             MainForm.Controls.Add(applicationsContainerPanel);
 
+
             LoadApplications();
 
             void LoadApplications()
@@ -172,14 +174,29 @@ namespace NewDemoex
 
                                     panelTopOffset += panelHeight + panelSpacing;
                                     // Создаем переменные и лейбл с названием товара и производителя
+                                    
                                     //Картинка...
-                                    Label PhotoLabel = new Label();
-                                    string photo = reader.GetString(2);
-                                    PhotoLabel.Text = photo;
-                                    PhotoLabel.Size = new Size(50, 50);
-                                    PhotoLabel.Location = new Point(10, 10);
-                                    PhotoLabel.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
-                                    applicationPanel.Controls.Add(PhotoLabel);
+                                    PictureBox photoPictureBox = new PictureBox();
+                                    string photoFileName = reader.GetString(2); // например, "pic.png"
+                                    string imagePath = Path.Combine(Application.StartupPath, photoFileName);
+                                    if (File.Exists(imagePath))
+                                    {
+                                        photoPictureBox.Image = Image.FromFile(imagePath);
+                                    }
+                                    else
+                                    {
+                                        //Если не прогрузились картинки то заменим на лого
+                                        PictureBox logoPictureBox = new PictureBox();
+                                        logoPictureBox.Image = Image.FromFile("pic.png");
+                                        logoPictureBox.Size = new Size(50, 50);
+                                        logoPictureBox.Location = new Point(10, 10);
+                                        logoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                                        applicationPanel.Controls.Add(logoPictureBox);
+                                    }
+                                    photoPictureBox.Size = new Size(50, 50);
+                                    photoPictureBox.Location = new Point(10, 10);
+                                    photoPictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                                    applicationPanel.Controls.Add(photoPictureBox);
                                     //Основная инфа
                                     Label titleLabel = new Label();
                                     string productName = reader.GetString(1);
@@ -209,6 +226,21 @@ namespace NewDemoex
                                 }
                             }
                         }
+                        //Выход в логинформу
+                        Button returnToLogin = new Button();
+                        returnToLogin.Text = "Выйти";
+                        returnToLogin.Location = new Point(1770, 950);
+                        returnToLogin.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
+                        returnToLogin.Size = new Size(150, 139);
+                        MainForm.Controls.Add(returnToLogin);
+                        returnToLogin.Click += returnToLogin_Click;
+                        void returnToLogin_Click(object sender, EventArgs e)
+                        {
+                            MessageBox.Show("Выход из системы. Переход в окно авторизации");
+                            MainForm.Hide();
+                            this.Show();
+                        }
+
                         //Типо сортировка-заглушка
                         ComboBox OptList = new ComboBox();
                         OptList.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -217,9 +249,8 @@ namespace NewDemoex
                         OptList.Items.Insert(0, "Сортировка");
                         OptList.SelectedIndex = 0;
                         OptList.Font = new Font("Bahnschrift Light SemiCondensed", 12);
-                        OptList.Items.Add("По названию");
-                        OptList.Items.Add("По дате");
-                        OptList.Items.Add("По скидке");
+                        OptList.Items.Add("Kari");
+                        OptList.Items.Add("Обувь для вас");
                         MainForm.Controls.Add(OptList);
 
                         //Типо поиск-заглушка
@@ -247,7 +278,7 @@ namespace NewDemoex
                         Button button1 = new Button();
                         button1.Size = new Size(300, 64);
                         button1.Location = new Point(250, 860);
-                        button1.Text = "Подсчеты";
+                        button1.Text = "Добавить/Удалить данные";
                         button1.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
                         MainForm.Controls.Add(button1);
                         // Создает новую функцию и форму, закрывает первое окно
@@ -256,30 +287,36 @@ namespace NewDemoex
                         {
                             // настройки окна
                             MainForm.Hide();
-                            Form CalcForm = new Form();
-                            CalcForm.Text = "Подсчеты вашего IQ";
-                            CalcForm.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                            CalcForm.Size = new Size(800, 200);
-                            CalcForm.StartPosition = FormStartPosition.CenterScreen;
-                            CalcForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+                            Form EdDate = new Form();
+                            EdDate.Text = "Работа с данными";
+                            EdDate.BackColor = ColorTranslator.FromHtml("#FFFFFF");
+                            EdDate.Size = new Size(800, 200);
+                            EdDate.StartPosition = FormStartPosition.CenterScreen;
+                            EdDate.FormBorderStyle = FormBorderStyle.FixedDialog;
                             // текст
                             Label messageLabel = new Label();
-                            messageLabel.Text = "У вас че калькулятор сдох? Или хромосом недосчитали?";
+                            messageLabel.Text = "Временно недоступно";
                             messageLabel.AutoSize = true;
                             messageLabel.Font = new Font("Bahnschrift Light SemiCondensed", 24);
                             messageLabel.Location = new Point(20, 20);
-                            CalcForm.Controls.Add(messageLabel);
+                            EdDate.Controls.Add(messageLabel);
                             // кнопка завершения программы
                             Button closeButton = new Button();
-                            closeButton.Text = "Дропнуть с позором";
+                            closeButton.Text = "ЗВернуться к карточкам";
                             closeButton.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
                             closeButton.Size = new Size(250, 50);
                             closeButton.Location = new Point(265, 80);
-                            closeButton.Click += (cs, ce) => Application.Exit();
+                            closeButton.Click += closeButton_Click;
+                            void closeButton_Click(object sender, EventArgs e)
+                            {
+                                MessageBox.Show("Возврат с карточкам");
+                                EdDate.Hide();
+                                MainForm.Show();
+                            }
                             // выше уже все пояснено
-                            CalcForm.Controls.Add(closeButton);
-                            CalcForm.ShowDialog();
-                            MainForm.Show();
+                            EdDate.Controls.Add(closeButton);
+                            EdDate.ShowDialog();
+                            
                         }
                     }
                 }
