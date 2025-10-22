@@ -98,7 +98,7 @@ namespace NewDemoex
 
             applicationsContainerPanel = new Panel();
             applicationsContainerPanel.Location = new Point(10, 170);
-            applicationsContainerPanel.Size = new Size(860, 700);
+            applicationsContainerPanel.Size = new Size(960, 700);
             applicationsContainerPanel.BorderStyle = BorderStyle.FixedSingle;
             applicationsContainerPanel.AutoScroll = true; //Скроллинг
 
@@ -212,9 +212,29 @@ namespace NewDemoex
                                     decimal price = reader.GetDecimal(6);
                                     string unit = reader.GetString(7);
                                     int stock = reader.GetInt32(8);
-                                    int disc = reader.GetInt32(10);
+                                    decimal disc = reader.GetDecimal(10);
+                                    //выделение цветом с условием
+                                    if (stock == 0)
+                                    {
+                                        applicationPanel.BackColor = ColorTranslator.FromHtml("#87CEEB");
+                                    }
+                                    else if (disc > 15)
+                                    {
+                                        applicationPanel.BackColor = ColorTranslator.FromHtml("#B22222");
+                                    }
+                                    //отображение цены со скидкой или без
+                                    if (disc > 0)
+                                    {
+                                        decimal finalPrice = price * (disc / 100);
+                                        price = price - finalPrice;
+
+                                    }
+                                    else
+                                    {
+                                        price = reader.GetDecimal(6);
+                                    }
                                     Label detailsLabel = new Label();
-                                    detailsLabel.Text = $"{description}, Категория: {categoryName}, Цена: {price} ₽, Остаток: {stock} {unit} | Скидка: {disc}%";
+                                    detailsLabel.Text = $"{description}, Категория: {categoryName}, Остаток: {stock} {unit}, Цена со скидкой: {price:F2} ₽, | Скидка: {disc}%";
                                     detailsLabel.Size = new Size(780, 40);
                                     detailsLabel.Location = new Point(76, 50);
                                     detailsLabel.Font = new Font("Bahnschrift Light SemiCondensed", 9);
@@ -302,7 +322,7 @@ namespace NewDemoex
                             EdDate.Controls.Add(messageLabel);
                             // кнопка завершения программы
                             Button closeButton = new Button();
-                            closeButton.Text = "ЗВернуться к карточкам";
+                            closeButton.Text = "Вернуться к карточкам";
                             closeButton.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
                             closeButton.Size = new Size(250, 50);
                             closeButton.Location = new Point(265, 80);
