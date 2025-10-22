@@ -202,7 +202,7 @@ namespace NewDemoex
                                     string productName = reader.GetString(1);
                                     string manufactureName = reader.GetString(4);
                                     string suppliersName = reader.GetString(5);
-                                    titleLabel.Text = productName + $" ({suppliersName} - {manufactureName})";
+                                    titleLabel.Text = productName + $" (Магазин {suppliersName}, Брэнд {manufactureName})";
                                     titleLabel.Size = new Size(780, 30);
                                     titleLabel.Location = new Point(76, 10);
                                     titleLabel.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
