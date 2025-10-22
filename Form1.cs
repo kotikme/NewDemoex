@@ -98,7 +98,7 @@ namespace NewDemoex
 
             applicationsContainerPanel = new Panel();
             applicationsContainerPanel.Location = new Point(10, 170);
-            applicationsContainerPanel.Size = new Size(960, 700);
+            applicationsContainerPanel.Size = new Size(860, 700);
             applicationsContainerPanel.BorderStyle = BorderStyle.FixedSingle;
             applicationsContainerPanel.AutoScroll = true; //Скроллинг
 
@@ -201,7 +201,8 @@ namespace NewDemoex
                                     Label titleLabel = new Label();
                                     string productName = reader.GetString(1);
                                     string manufactureName = reader.GetString(4);
-                                    titleLabel.Text = productName + " (" + manufactureName + ")";
+                                    string suppliersName = reader.GetString(5);
+                                    titleLabel.Text = productName + $" ({suppliersName} - {manufactureName})";
                                     titleLabel.Size = new Size(780, 30);
                                     titleLabel.Location = new Point(76, 10);
                                     titleLabel.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
@@ -249,9 +250,9 @@ namespace NewDemoex
                         //Выход в логинформу
                         Button returnToLogin = new Button();
                         returnToLogin.Text = "Выйти";
-                        returnToLogin.Location = new Point(1770, 950);
+                        returnToLogin.Location = new Point(1670, 850);
                         returnToLogin.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
-                        returnToLogin.Size = new Size(150, 139);
+                        returnToLogin.Size = new Size(150, 100);
                         MainForm.Controls.Add(returnToLogin);
                         returnToLogin.Click += returnToLogin_Click;
                         void returnToLogin_Click(object sender, EventArgs e)
@@ -286,6 +287,7 @@ namespace NewDemoex
                         SearchTB.Font = new Font("Bahnschrift Light SemiCondensed", 12);
                         SearchTB.Location = new Point(1250, 280);
                         MainForm.Controls.Add(SearchTB);
+
                         Button buttonSearch = new Button();
                         buttonSearch.Size = new Size(100, 34);
                         buttonSearch.Location = new Point(1340, 320);
@@ -293,6 +295,9 @@ namespace NewDemoex
                         buttonSearch.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
                         buttonSearch.Click += (cs, ce) => MessageBox.Show("Кажется что-то пошло не так...");
                         MainForm.Controls.Add(buttonSearch);
+
+                        //Поиск и сортировка функции
+                        
 
                         // кнопка ведущая к другому окну с другой функцией
                         Button button1 = new Button();
@@ -310,31 +315,60 @@ namespace NewDemoex
                             Form EdDate = new Form();
                             EdDate.Text = "Работа с данными";
                             EdDate.BackColor = ColorTranslator.FromHtml("#FFFFFF");
-                            EdDate.Size = new Size(800, 200);
+                            EdDate.Size = new Size(800, 400);
                             EdDate.StartPosition = FormStartPosition.CenterScreen;
                             EdDate.FormBorderStyle = FormBorderStyle.FixedDialog;
                             // текст
                             Label messageLabel = new Label();
-                            messageLabel.Text = "Временно недоступно";
+                            messageLabel.Text = "Что вы хотите сделать?";
                             messageLabel.AutoSize = true;
-                            messageLabel.Font = new Font("Bahnschrift Light SemiCondensed", 24);
-                            messageLabel.Location = new Point(20, 20);
+                            messageLabel.Font = new Font("Bahnschrift Light SemiCondensed", 14);
+                            messageLabel.Location = new Point(290, 20);
                             EdDate.Controls.Add(messageLabel);
-                            // кнопка завершения программы
-                            Button closeButton = new Button();
-                            closeButton.Text = "Вернуться к карточкам";
-                            closeButton.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
-                            closeButton.Size = new Size(250, 50);
-                            closeButton.Location = new Point(265, 80);
-                            closeButton.Click += closeButton_Click;
-                            void closeButton_Click(object sender, EventArgs e)
+                            // редактировать данные кнопка
+                            Button EdBtn = new Button();
+                            EdBtn.Text = "Редактировать данные";
+                            EdBtn.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
+                            EdBtn.Size = new Size(250, 50);
+                            EdBtn.Location = new Point(265, 80);
+                            EdBtn.Click += EdBtn_Click;
+                            void EdBtn_Click(object sender, EventArgs e)
+                            {
+                                MessageBox.Show("Временно не работает. Возврат с карточкам");
+                                EdDate.Hide();
+                                MainForm.Show();
+                            }
+                            // кнопка удаления данных
+                            Button delBtn = new Button();
+                            delBtn.Text = "Удалить данные";
+                            delBtn.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
+                            delBtn.Size = new Size(250, 50);
+                            delBtn.Location = new Point(265, 200);
+                            delBtn.Click += delBtn_Click;
+                            void delBtn_Click(object sender, EventArgs e)
+                            {
+                                MessageBox.Show("Временно не работает. Возврат с карточкам");
+                                EdDate.Hide();
+                                MainForm.Show();
+                            }
+
+                            // кнопка возврата к карточками
+                            Button closeBtn = new Button();
+                            closeBtn.Text = "Вернуться к карточкам";
+                            closeBtn.Font = new Font("Bahnschrift Light SemiCondensed", 12, FontStyle.Bold);
+                            closeBtn.Size = new Size(250, 50);
+                            closeBtn.Location = new Point(265, 300);
+                            closeBtn.Click += closeBtn_Click;
+                            void closeBtn_Click(object sender, EventArgs e)
                             {
                                 MessageBox.Show("Возврат с карточкам");
                                 EdDate.Hide();
                                 MainForm.Show();
                             }
                             // выше уже все пояснено
-                            EdDate.Controls.Add(closeButton);
+                            EdDate.Controls.Add(EdBtn);
+                            EdDate.Controls.Add(delBtn);
+                            EdDate.Controls.Add(closeBtn);
                             EdDate.ShowDialog();
                             
                         }
