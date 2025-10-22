@@ -186,12 +186,12 @@ namespace NewDemoex
                                     else
                                     {
                                         //Если не прогрузились картинки то заменим на лого
-                                        PictureBox logoPictureBox = new PictureBox();
-                                        logoPictureBox.Image = Image.FromFile("pic.png");
-                                        logoPictureBox.Size = new Size(50, 50);
-                                        logoPictureBox.Location = new Point(10, 10);
-                                        logoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                                        applicationPanel.Controls.Add(logoPictureBox);
+                                        PictureBox errorPictureBox = new PictureBox();
+                                        errorPictureBox.Image = Image.FromFile("pic.png");
+                                        errorPictureBox.Size = new Size(50, 50);
+                                        errorPictureBox.Location = new Point(10, 10);
+                                        errorPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                                        errorPictureBox.Controls.Add(errorPictureBox);
                                     }
                                     photoPictureBox.Size = new Size(50, 50);
                                     photoPictureBox.Location = new Point(10, 10);
