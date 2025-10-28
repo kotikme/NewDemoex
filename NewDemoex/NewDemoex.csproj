@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="1.jpg" />
+    <None Remove="10.jpg" />
+    <None Remove="2.jpg" />
+    <None Remove="3.jpg" />
+    <None Remove="4.jpg" />
+    <None Remove="5.jpg" />
+    <None Remove="6.jpg" />
+    <None Remove="7.jpg" />
+    <None Remove="8.jpg" />
+    <None Remove="9.jpg" />
+    <None Remove="Icon.ico" />
+    <None Remove="Icon.JPG" />
+    <None Remove="Icon.png" />
+    <None Remove="picture.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="1.jpg" />
+    <EmbeddedResource Include="10.jpg" />
+    <EmbeddedResource Include="2.jpg" />
+    <EmbeddedResource Include="3.jpg" />
+    <EmbeddedResource Include="4.jpg" />
+    <EmbeddedResource Include="5.jpg" />
+    <EmbeddedResource Include="6.jpg" />
+    <EmbeddedResource Include="7.jpg" />
+    <EmbeddedResource Include="8.jpg" />
+    <EmbeddedResource Include="9.jpg" />
+    <EmbeddedResource Include="Icon.ico" />
+    <EmbeddedResource Include="Icon.JPG" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="npgsql" Version="5.0.5" />
+  </ItemGroup>
+
+</Project>
