@@ -177,7 +177,7 @@ namespace NewDemoex
                                     
                                     //Картинка... Тут чет сломалось
                                     PictureBox photoPictureBox = new PictureBox();
-                                    string photoFileName = reader.GetString(2); // например, "pic.png"
+                                    string photoFileName = reader.GetString(2);
                                     string imagePath = Path.Combine(Application.StartupPath, photoFileName);
                                     if (File.Exists(imagePath))
                                     {
@@ -185,13 +185,7 @@ namespace NewDemoex
                                     }
                                     else
                                     {
-                                        //Если не прогрузились картинки то заменим на лого
-                                        PictureBox errorPictureBox = new PictureBox();
-                                        errorPictureBox.Image = Image.FromFile("pic.png");
-                                        errorPictureBox.Size = new Size(50, 50);
-                                        errorPictureBox.Location = new Point(10, 10);
-                                        errorPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                                        errorPictureBox.Controls.Add(errorPictureBox);
+                                        photoPictureBox.Image = Image.FromFile("pic.png");
                                     }
                                     photoPictureBox.Size = new Size(50, 50);
                                     photoPictureBox.Location = new Point(10, 10);
@@ -443,3 +437,4 @@ namespace NewDemoex
     }
 
 }
+
