@@ -175,7 +175,7 @@ namespace NewDemoex
                                     panelTopOffset += panelHeight + panelSpacing;
                                     // Создаем переменные и лейбл с названием товара и производителя
                                     
-                                    //Картинка...
+                                    //Картинка... Тут чет сломалось
                                     PictureBox photoPictureBox = new PictureBox();
                                     string photoFileName = reader.GetString(2); // например, "pic.png"
                                     string imagePath = Path.Combine(Application.StartupPath, photoFileName);
@@ -441,4 +441,5 @@ namespace NewDemoex
 
         }
     }
+
 }
